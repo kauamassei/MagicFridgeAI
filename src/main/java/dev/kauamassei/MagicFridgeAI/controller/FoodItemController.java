@@ -1,10 +1,10 @@
-package controller;
+package dev.kauamassei.MagicFridgeAI.controller;
 
-import model.FoodItemModel;
+import dev.kauamassei.MagicFridgeAI.model.FoodItemModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.FoodItemService;
+import dev.kauamassei.MagicFridgeAI.service.FoodItemService;
 
 import java.util.List;
 import java.util.Optional;

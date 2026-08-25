@@ -1,9 +1,8 @@
-package service;
+package dev.kauamassei.MagicFridgeAI.service;
 
-import model.FoodItemModel;
-import org.springframework.http.ResponseEntity;
+import dev.kauamassei.MagicFridgeAI.model.FoodItemModel;
 import org.springframework.stereotype.Service;
-import repository.FoodItemRepository;
+import dev.kauamassei.MagicFridgeAI.repository.FoodItemRepository;
 
 import java.util.List;
 import java.util.Optional;
