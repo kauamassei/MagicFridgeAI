@@ -1,5 +1,6 @@
 package dev.kauamassei.MagicFridgeAI.service;
 
+import dev.kauamassei.MagicFridgeAI.model.FoodItemModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class GeminiService {
@@ -20,9 +22,14 @@ public class GeminiService {
         this.webClient = webClient;
     }
 
-    public Mono<String> generateRecipe() {
+    public Mono<String> generateRecipe(List<FoodItemModel> foodItems) {
 
-        String prompt = "Me sugira uma receita simples com itens comuns";
+        String alimentos = foodItems.stream()
+                .map(item -> String.format("%s (%s) - Quantidade: %d, Validade: %s",
+                        item.getNome(), item.getCategoria(), item.getQuantidade(), item.getValidade()))
+                .collect(Collectors.joining("\n"));
+
+        String prompt = "Faça uma receita com os seguintes itens: " + alimentos;
 
         Map<String, Object> requestBody = Map.of(
                 "contents", List.of(
@@ -35,7 +42,7 @@ public class GeminiService {
         );
 
         return webClient.post()
-                .uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent")
+                .uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header("x-goog-api-key", apiKey)
                 .bodyValue(requestBody)
